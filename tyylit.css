@@ -1,0 +1,13 @@
+* {
+    font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;
+    font-style: italic;
+}
+
+body {
+	background-color:#f0eef0;
+	color:#112121;
+}
+
+#container {
+	z-index:-1;
+}

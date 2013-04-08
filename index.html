@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>WebGL</title>
+	<link rel="stylesheet" href="tyylit.css" /> 
+	<script src="threejs/three.js"></script>
+	<script src="libs/RequestAnimationFrame.js"></script>
+	<script src="perus3dapp.js"></script>
+	<script>
+	
+	var 
+		camera = null,
+		kolmedobj = null,
+		animating = false;
+
+	function setCamera()
+	{
+		camera = new THREE.PerspectiveCamera( 45, container.offsetWidth / container.offsetHeight, 1, 4000 );
+        camera.position.set( 0, 1.5, 7 );
+	}
+		
+	function letThereBeLight() {
+		var light = new THREE.DirectionalLight( 0xffffff, 1.5);
+		light.position.set(0, 0, 1);
+		scene.add( light );
+	}
+	
+	function kolmeDobjekti (scale  ) {
+
+		this.material = new THREE.MeshBasicMaterial({ color: 0xff0fff, wireframe : true });
+
+		this.geometry = new THREE.Geometry()
+		this.geometry.vertices.push( new THREE.Vector3( 1,  0 , 1 ) );
+		this.geometry.vertices.push( new THREE.Vector3( 1,  0 , -1  ) );
+		this.geometry.vertices.push( new THREE.Vector3( -1,0 ,1 ) );
+		this.geometry.vertices.push( new THREE.Vector3( -1,0 , -1 ) );
+		this.geometry.faces.push( new THREE.Face3(  0, 1, 2 ) );
+		this.geometry.faces.push( new THREE.Face3(  1, 2, 3 ) );
+		
+		this.mesh = new THREE.Mesh(this.geometry, this.material );
+		this.mesh.scale =  new THREE.Vector3( scale,scale,scale )
+		this.mesh.position =  new THREE.Vector3( 0,0,0 )
+		}
+	
+	function animate(){
+		kolmedobj.mesh.rotation.y -= 0.01;
+	}
+	
+	function onLoad()
+	{
+		var kolme3App = new Perus3Dapp();
+		kolmedobj = new kolmeDobjekti(1); // konstruktorin argumentti m‰‰ritt‰‰ objektin koon
+        kolme3App.add( kolmedobj );
+		kolme3App.run();
+	}
+
+</script>
+</head>
+<body onLoad="onLoad();" style="">
+    <div id="container" style="width:95%; height:95%; position:absolute;"></div>
+		<div id="prompt" style="width:95%; height:6%; bottom:0; text-align:center; position:absolute;">Click to animate the geometry</div>
+
+</body>
+</html>
