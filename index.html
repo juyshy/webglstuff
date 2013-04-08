@@ -42,12 +42,15 @@
 		
 		//prepare translate matrix:
 		m1.translate( new THREE.Vector3( 0, 1, 0 )  )  ;
+		var kulma = 15;
+		m1.rotateZ( kulma * Math.PI/180 )  ;
 		
 		var extraVerts = new Array(); // temp array for duplicated and translated vertex points
 		
 		for (var j= 0; j < this.geometry.vertices.length; j++) {
 			var vertex = this.geometry.vertices[j].clone()
 			vertex.applyMatrix4( m1 ) ;
+			
 			extraVerts.push(vertex );
 			//console.log(vertex);
 		}
