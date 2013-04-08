@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>WebGL</title>
+<title>WebGL geometry Matrix Experiments with three.js</title>
 	<link rel="stylesheet" href="tyylit.css" /> 
 	<script src="threejs/three.js"></script>
 	<script src="libs/RequestAnimationFrame.js"></script>
@@ -26,18 +26,38 @@
 		scene.add( light );
 	}
 	
-	function kolmeDobjekti (scale  ) {
+	function kolmeDobjekti ( scale  ) {
 
 		this.material = new THREE.MeshBasicMaterial({ color: 0xff0fff, wireframe : true });
 
 		this.geometry = new THREE.Geometry()
-		this.geometry.vertices.push( new THREE.Vector3( 1,  0 , 1 ) );
-		this.geometry.vertices.push( new THREE.Vector3( 1,  0 , -1  ) );
-		this.geometry.vertices.push( new THREE.Vector3( -1,0 ,1 ) );
-		this.geometry.vertices.push( new THREE.Vector3( -1,0 , -1 ) );
+		this.geometry.vertices.push( new THREE.Vector3(  1, 0,  1 ) );
+		this.geometry.vertices.push( new THREE.Vector3(  1, 0, -1 ) );
+		this.geometry.vertices.push( new THREE.Vector3( -1, 0,  1 ) );
+		this.geometry.vertices.push( new THREE.Vector3( -1, 0, -1 ) );
 		this.geometry.faces.push( new THREE.Face3(  0, 1, 2 ) );
 		this.geometry.faces.push( new THREE.Face3(  1, 2, 3 ) );
 		
+		var m1 = new THREE.Matrix4();
+		
+		//prepare translate matrix:
+		m1.translate( new THREE.Vector3( 0, 1, 0 )  )  ;
+		
+		var extraVerts = new Array(); // temp array for duplicated and translated vertex points
+		
+		for (var j= 0; j < this.geometry.vertices.length; j++) {
+			var vertex = this.geometry.vertices[j].clone()
+			vertex.applyMatrix4( m1 ) ;
+			extraVerts.push(vertex );
+			//console.log(vertex);
+		}
+				
+		// lets concatenate new vertex points to geometry
+		this.geometry.vertices=this.geometry.vertices.concat(extraVerts);
+		// and add faces:
+		this.geometry.faces.push( new THREE.Face3( 4, 4+1, 4+2 ) );
+		this.geometry.faces.push( new THREE.Face3( 4+1, 4+2, 4+3 ) );
+			
 		this.mesh = new THREE.Mesh(this.geometry, this.material );
 		this.mesh.scale =  new THREE.Vector3( scale,scale,scale )
 		this.mesh.position =  new THREE.Vector3( 0,0,0 )

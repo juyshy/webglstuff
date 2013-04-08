@@ -1,5 +1,5 @@
 
-// refactored from Chapter 3 code example in WebGL Up and Running book
+// refactored from Chapter 2 code example in WebGL Up and Running book
 // https://github.com/tparisi/WebGLBook
 
 var renderer = null, 
@@ -19,7 +19,6 @@ function setUpRender() {
 	}
 	
 function Perus3Dapp () {
-	
 	
 	this.init = function() {
 		setUpRender();
